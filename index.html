@@ -1,82 +1,1747 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visanth Kallazhi — AI Product Engineer</title>
+    <meta name="description"
+        content="Portfolio of Visanth Kallazhi, an experienced AI Product Engineer specializing in AI product design, UI/UX, Agentic systems, LLMs, and cloud infrastructure." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
     <style>
+        /* ============================
+       CSS VARIABLES & RESET
+    ============================ */
         :root {
-            --primary: #6366f1;
-            --bg: #0f172a;
-            --text: #f8fafc;
-            --accent: #10b981;
+            --bg-primary: #060812;
+            --bg-secondary: #0c1020;
+            --bg-card: #101525;
+            --accent-1: #6c63ff;
+            --accent-2: #00d4ff;
+            --accent-3: #ff6b9d;
+            --accent-grad: linear-gradient(135deg, #6c63ff 0%, #00d4ff 100%);
+            --text-primary: #f0f4ff;
+            --text-secondary: #94a3b8;
+            --text-muted: #4a5568;
+            --border: rgba(108, 99, 255, 0.18);
+            --glow: rgba(108, 99, 255, 0.35);
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body {
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent-1);
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============================
+       ANIMATED BACKGROUND
+    ============================ */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(108, 99, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108, 99, 255, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation: orbFloat 12s ease-in-out infinite alternate;
+        }
+
+        .bg-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            bottom: -100px;
+            right: -100px;
+            animation: orbFloat 15s ease-in-out infinite alternate-reverse;
+        }
+
+        .bg-orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            animation: orbFloat 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbFloat {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(40px, 30px) scale(1.1);
+            }
+        }
+
+        /* ============================
+       NAVIGATION
+    ============================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(6, 8, 18, 0.7);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            justify-content: space-between;
         }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            border-radius: 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform: translateY(0);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-        }
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: var(--accent-grad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeIn 1s ease-out;
+            background-clip: text;
+            letter-spacing: -0.5px;
         }
-        p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            animation: fadeIn 1s ease-out 0.2s both;
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
         }
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-grad);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: var(--accent-grad);
+            color: #fff !important;
             font-weight: 600;
-            transition: background-color 0.2s;
-            animation: fadeIn 1s ease-out 0.4s both;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
         }
-        .btn:hover {
-            background-color: #4f46e5;
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* ============================
+       MAIN WRAPPER
+    ============================ */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 100px 32px;
+        }
+
+        /* ============================
+       HERO SECTION
+    ============================ */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: rgba(108, 99, 255, 0.1);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent-2);
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+
+        .hero-name .grad-text {
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+
+        .hero-title span {
+            color: var(--accent-1);
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 620px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s 0.3s ease both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s 0.4s ease both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            background: var(--accent-grad);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 24px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 36px rgba(108, 99, 255, 0.6);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-1);
+            background: rgba(108, 99, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.6s 0.5s ease both;
+        }
+
+        .stat-item {}
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================
+       SECTION HEADERS
+    ============================ */
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-1);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 520px;
+            line-height: 1.8;
+            margin-bottom: 56px;
+        }
+
+        /* ============================
+       SKILLS / EXPERTISE SECTION
+    ============================ */
+        #skills {
+            padding-top: 80px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-grad);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 99, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(108, 99, 255, 0.2);
+        }
+
+        .skill-card:hover::before {
+            opacity: 0.04;
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .skill-title {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .skill-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(108, 99, 255, 0.12);
+            color: var(--accent-1);
+            border: 1px solid rgba(108, 99, 255, 0.2);
+        }
+
+        .tag.teal {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-2);
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .tag.pink {
+            background: rgba(255, 107, 157, 0.1);
+            color: var(--accent-3);
+            border-color: rgba(255, 107, 157, 0.2);
+        }
+
+        .tag.green {
+            background: rgba(52, 211, 153, 0.1);
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.2);
+        }
+
+        .tag.orange {
+            background: rgba(251, 146, 60, 0.1);
+            color: #fb923c;
+            border-color: rgba(251, 146, 60, 0.2);
+        }
+
+        /* ============================
+       PROJECT TABS
+    ============================ */
+        .project-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 6px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-family: var(--font-main);
+        }
+
+        .tab-btn .tab-count {
+            font-size: 0.7rem;
+            background: rgba(108, 99, 255, 0.15);
+            color: var(--accent-1);
+            padding: 1px 7px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-grad);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .tab-btn.active .tab-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Design project card — clickable with overlay */
+        .project-card.design-card {
+            cursor: pointer;
+        }
+
+        .project-card.design-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 55%);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .project-card.design-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-overlay-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: var(--accent-grad);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(108, 99, 255, 0.5);
+        }
+
+        .projects-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* ============================
+       TECH STACK SECTION
+    ============================ */
+        #techstack {}
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 14px;
+        }
+
+        .tech-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px 14px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 99, 255, 0.5);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(108, 99, 255, 0.1);
+            background: rgba(108, 99, 255, 0.06);
+        }
+
+        .tech-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .tech-name {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ============================
+       PROJECTS SECTION
+    ============================ */
+        #projects {}
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(108, 99, 255, 0.4);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(108, 99, 255, 0.15);
+        }
+
+        .project-header {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ph-1 {
+            background: linear-gradient(135deg, #1a1040, #3b1f7a, #1a0a35);
+        }
+
+        .ph-2 {
+            background: linear-gradient(135deg, #0a2540, #0d3b6d, #062040);
+        }
+
+        .ph-3 {
+            background: linear-gradient(135deg, #1a0d20, #3d1a4d, #1a0d2a);
+        }
+
+        .ph-4 {
+            background: linear-gradient(135deg, #0a1f1a, #1a3d30, #0a2015);
+        }
+
+        .ph-5 {
+            background: linear-gradient(135deg, #1f1200, #3d2800, #1a0e00);
+        }
+
+        .ph-6 {
+            background: linear-gradient(135deg, #001a2c, #00304d, #001520);
+        }
+
+        .ph-7 {
+            background: linear-gradient(135deg, #1a001a, #35003a, #0d000d);
+        }
+
+        .ph-8 {
+            background: linear-gradient(135deg, #001a10, #00331e, #00150b);
+        }
+
+        .project-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(108, 99, 255, 0.18), transparent 70%);
+        }
+
+        .project-body {
+            padding: 22px;
+        }
+
+        .project-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-2);
+            margin-bottom: 6px;
+        }
+
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project-desc {
+            font-size: 0.855rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-1);
+            transition: var(--transition);
+            margin-top: 14px;
+        }
+
+        .project-link:hover {
+            color: var(--accent-2);
+            gap: 10px;
+        }
+
+        /* ============================
+       ABOUT / CERTIFICATIONS
+    ============================ */
+        #about {}
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .about-text {}
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .cert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .cert-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            transition: var(--transition);
+        }
+
+        .cert-item:hover {
+            border-color: rgba(108, 99, 255, 0.4);
+            transform: translateX(4px);
+        }
+
+        .cert-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .cert-info {}
+
+        .cert-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .cert-issuer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================
+       CONTACT SECTION
+    ============================ */
+        #contact {
+            text-align: center;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-grad);
+        }
+
+        .contact-card .section-title {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            max-width: 440px;
+            margin: 0 auto 36px;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .contact-btn:hover {
+            border-color: var(--accent-1);
+            color: var(--text-primary);
+            background: rgba(108, 99, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .contact-btn.primary {
+            background: var(--accent-grad);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.35);
+        }
+
+        .contact-btn.primary:hover {
+            box-shadow: 0 8px 32px rgba(108, 99, 255, 0.6);
+            color: #fff;
+            background: var(--accent-grad);
+        }
+
+        /* ============================
+       FOOTER
+    ============================ */
+        footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer span {
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* ============================
+       SCROLL REVEAL ANIMATION
+    ============================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================
+       RESPONSIVE
+    ============================ */
+        @media (max-width: 768px) {
+            section {
+                padding: 72px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-stats {
+                gap: 28px;
+                flex-wrap: wrap;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-card {
+                padding: 40px 24px;
+            }
+        }
+
+        /* ============================
+       SCROLLBAR
+    ============================ */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-1);
+            border-radius: 3px;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Hello, World!</h1>
-        <p>Welcome to my professional portfolio.</p>
-        <a href="#" class="btn">Learn More</a>
-    </div>
+
+    <!-- Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <div class="nav-logo">VK.</div>
+            <ul class="nav-links">
+                <li><a href="#skills">Expertise</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#techstack">Tech Stack</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ========================
+         HERO
+    ======================== -->
+        <section id="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    Available for exciting AI opportunities
+                </div>
+
+                <h1 class="hero-name">
+                    Visanth<br /><span class="grad-text">Kallazhi</span>
+                </h1>
+
+                <p class="hero-title">
+                    AI Product Engineer &amp; <span>Forward Deployed Engineer</span>
+                </p>
+
+                <p class="hero-desc">
+                    5 years crafting intelligent products at the intersection of AI research and production engineering.
+                    I design and ship AI-native experiences — from LLM-powered agents to full-stack cloud platforms —
+                    blending product thinking with deep technical execution.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary" id="hero-hireme-btn">
+                        ✨ Let's Work Together
+                    </a>
+                    <a href="#projects" class="btn-outline" id="hero-projects-btn">
+                        View Projects →
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-num">5+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">20+</div>
+                        <div class="stat-label">AI Projects Shipped</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">10+</div>
+                        <div class="stat-label">LLM Integrations</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">∞</div>
+                        <div class="stat-label">Curiosity</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================
+         SKILLS / EXPERTISE
+    ======================== -->
+        <section id="skills">
+            <div class="reveal">
+                <p class="section-label">What I Do</p>
+                <h2 class="section-title">Core Expertise</h2>
+                <p class="section-desc">A multidisciplinary AI engineer who thrives across the full stack — from product
+                    ideation to production deployment.</p>
+            </div>
+
+            <div class="skills-grid reveal">
+
+                <div class="skill-card">
+                    <span class="skill-icon">🤖</span>
+                    <div class="skill-title">AI Product Design</div>
+                    <p class="skill-desc">Translating complex AI capabilities into intuitive, user-centric products.
+                        Defining AI feature roadmaps, writing PRDs for ML features, and shaping intelligent product
+                        experiences from zero to one.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Product Strategy</span>
+                        <span class="tag teal">PRD Writing</span>
+                        <span class="tag pink">AI UX Patterns</span>
+                        <span class="tag green">User Research</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🎨</span>
+                    <div class="skill-title">UI/UX Development</div>
+                    <p class="skill-desc">Designing and engineering polished, accessible interfaces. Proficient in
+                        crafting design systems, prototypes, and production-ready frontends with modern frameworks and a
+                        sharp eye for detail.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Figma</span>
+                        <span class="tag teal">React</span>
+                        <span class="tag pink">Design Systems</span>
+                        <span class="tag orange">Prototyping</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🧠</span>
+                    <div class="skill-title">Agentic AI Design</div>
+                    <p class="skill-desc">Architecting multi-agent systems with tool use, memory, planning, and
+                        orchestration. Deep expertise in designing agent workflows, reasoning loops, and
+                        human-in-the-loop systems.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Multi-Agent</span>
+                        <span class="tag teal">ReAct / CoT</span>
+                        <span class="tag pink">Tool Calling</span>
+                        <span class="tag green">Memory Systems</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">⚡</span>
+                    <div class="skill-title">Vibe Coding</div>
+                    <p class="skill-desc">Rapid AI-assisted development with LLM co-pilots. Leveraging tools like
+                        Copilot, Cursor, and custom AI workflows to 10x engineering velocity, prototype fast, and ship
+                        polished products.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Cursor</span>
+                        <span class="tag teal">Copilot</span>
+                        <span class="tag pink">Prompt Engineering</span>
+                        <span class="tag orange">Rapid Prototyping</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🔧</span>
+                    <div class="skill-title">Agentic Software Dev</div>
+                    <p class="skill-desc">End-to-end development of production-grade agentic software. Building reliable
+                        agent pipelines, evaluation frameworks, self-healing workflows, and robust orchestration layers.
+                    </p>
+                    <div class="skill-tags">
+                        <span class="tag">LangChain</span>
+                        <span class="tag teal">LangGraph</span>
+                        <span class="tag pink">CrewAI</span>
+                        <span class="tag green">AutoGen</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">☁️</span>
+                    <div class="skill-title">DevOps &amp; Cloud</div>
+                    <p class="skill-desc">Deploying and scaling AI applications on cloud infrastructure. CI/CD
+                        pipelines, containerization, IaC, and managing MLOps workflows to ensure reliable, observable AI
+                        systems in production.</p>
+                    <div class="skill-tags">
+                        <span class="tag">AWS / GCP</span>
+                        <span class="tag teal">Docker / K8s</span>
+                        <span class="tag pink">MLflow</span>
+                        <span class="tag orange">Terraform</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================
+         PROJECTS (TABBED)
+    ======================== -->
+        <section id="projects">
+            <div class="reveal">
+                <p class="section-label">Portfolio</p>
+                <h2 class="section-title">Featured Work</h2>
+                <p class="section-desc">Products, platforms, and AI systems I've designed and engineered — across
+                    design, full-stack, and intelligent agents.</p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="project-tabs reveal">
+                <button class="tab-btn active" data-tab="design" id="tab-btn-design">🎨 Product Design <span
+                        class="tab-count">6</span></button>
+                <button class="tab-btn" data-tab="fullstack" id="tab-btn-fullstack">⚡ Full Stack <span
+                        class="tab-count">6</span></button>
+                <button class="tab-btn" data-tab="ai" id="tab-btn-ai">🤖 AI &amp; Agentic <span
+                        class="tab-count">3</span></button>
+            </div>
+
+            <!-- ── PRODUCT DESIGN TAB ── -->
+            <div class="tab-panel active" id="panel-design">
+                <div class="projects-grid">
+
+                    <div class="project-card design-card" onclick="window.location='product-design/nexus.html'">
+                        <div class="project-header ph-1">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            💬
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">Conversational AI · SaaS</div>
+                            <div class="project-name">Nexus — AI Chat Platform</div>
+                            <p class="project-desc">End-to-end product design for an AI-native chat interface: brand
+                                identity, design system, and responsive UI for an LLM-powered SaaS product.</p>
+                            <div class="project-tags"><span class="tag">Figma</span><span class="tag teal">Design
+                                    System</span><span class="tag pink">AI UX</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card design-card" onclick="window.location='product-design/careiq.html'">
+                        <div class="project-header ph-6">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            🏥
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">Healthcare · Dashboard</div>
+                            <div class="project-name">CareIQ — Clinical AI Dashboard</div>
+                            <p class="project-desc">Product design for a clinical decision-support dashboard. Complex
+                                data visualised clearly for busy medical professionals using AI-powered insights.</p>
+                            <div class="project-tags"><span class="tag">Information Architecture</span><span
+                                    class="tag teal">Data Viz</span><span class="tag green">Accessibility</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card design-card" onclick="window.location='product-design/shopmind.html'">
+                        <div class="project-header ph-5">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            🛍️
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">E-Commerce · AI Personalisation</div>
+                            <div class="project-name">ShopMind — Commerce Experience</div>
+                            <p class="project-desc">Redesigned a personalised shopping experience powered by AI
+                                recommendations. Focused on discovery, delight, and conversion optimisation.</p>
+                            <div class="project-tags"><span class="tag">UX Research</span><span
+                                    class="tag teal">Prototyping</span><span class="tag pink">A/B Testing</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card design-card" onclick="window.location='product-design/learnflow.html'">
+                        <div class="project-header ph-4">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            📚
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">EdTech · Adaptive Learning</div>
+                            <div class="project-name">LearnFlow — AI Tutor App</div>
+                            <p class="project-desc">Designed an adaptive learning platform where an AI tutor
+                                personalises curriculum paths. Emphasis on engagement, progress visibility, and
+                                motivational UX.</p>
+                            <div class="project-tags"><span class="tag">Mobile-First</span><span
+                                    class="tag teal">Gamification</span><span class="tag orange">User Research</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card design-card" onclick="window.location='product-design/finsight.html'">
+                        <div class="project-header ph-2">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            📈
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">FinTech · Analytics</div>
+                            <div class="project-name">FinSight — Financial Intelligence</div>
+                            <p class="project-desc">Designed a financial analytics platform making complex market data
+                                and AI forecasts accessible to retail investors through intuitive dashboards.</p>
+                            <div class="project-tags"><span class="tag">Complex Data</span><span
+                                    class="tag teal">Charts</span><span class="tag pink">Dark Mode</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card design-card" onclick="window.location='product-design/agentflow.html'">
+                        <div class="project-header ph-3">
+                            <div class="card-overlay"><span class="card-overlay-btn">View Case Study →</span></div>
+                            🕹️
+                        </div>
+                        <div class="project-body">
+                            <div class="project-type">Developer Tools · Agentic Builder</div>
+                            <div class="project-name">AgentFlow — Visual Agent Builder</div>
+                            <p class="project-desc">Product design for a no-code visual tool to build, test, and deploy
+                                AI agent workflows. Node-based canvas UI with an AI-first design language.</p>
+                            <div class="project-tags"><span class="tag">Node Canvas</span><span
+                                    class="tag teal">Developer UX</span><span class="tag green">AI-Native</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ── FULL STACK TAB ── -->
+            <div class="tab-panel" id="panel-fullstack">
+                <div class="projects-grid">
+
+                    <div class="project-card">
+                        <div class="project-header ph-2">🔗</div>
+                        <div class="project-body">
+                            <div class="project-type">Frontend · Backend · Real-time</div>
+                            <div class="project-name">CollabSpace — Real-time Collaboration Platform</div>
+                            <p class="project-desc">Full-stack real-time collaboration tool with WebSocket-based live
+                                cursors, document co-editing, and presence indicators. Built with Next.js, Node.js, and
+                                PostgreSQL.</p>
+                            <div class="project-tags"><span class="tag">Next.js</span><span
+                                    class="tag teal">WebSockets</span><span class="tag pink">PostgreSQL</span><span
+                                    class="tag green">Redis</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-4">🏗️</div>
+                        <div class="project-body">
+                            <div class="project-type">SaaS · Multi-tenant · Cloud</div>
+                            <div class="project-name">TenantOS — Multi-tenant SaaS Platform</div>
+                            <p class="project-desc">Enterprise SaaS boilerplate with multi-tenancy, RBAC, billing
+                                integration (Stripe), and an analytics dashboard. Deployed on AWS with auto-scaling ECS.
+                            </p>
+                            <div class="project-tags"><span class="tag">React</span><span
+                                    class="tag teal">Node.js</span><span class="tag pink">AWS ECS</span><span
+                                    class="tag orange">Stripe</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-1">⚙️</div>
+                        <div class="project-body">
+                            <div class="project-type">Backend · Microservices · DevOps</div>
+                            <div class="project-name">APIForge — Microservices Gateway</div>
+                            <p class="project-desc">Designed and deployed a microservices API gateway with rate
+                                limiting, JWT auth, request routing, and distributed tracing. Containerized with Docker
+                                and Kubernetes.</p>
+                            <div class="project-tags"><span class="tag">FastAPI</span><span
+                                    class="tag teal">Docker</span><span class="tag pink">K8s</span><span
+                                    class="tag green">Prometheus</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-5">📊</div>
+                        <div class="project-body">
+                            <div class="project-type">Frontend · Data · Dashboard</div>
+                            <div class="project-name">OpsView — DevOps Monitoring Dashboard</div>
+                            <p class="project-desc">Interactive DevOps visibility dashboard aggregating logs, metrics,
+                                and alerts from AWS CloudWatch, Datadog, and GitHub Actions into a unified React
+                                interface.</p>
+                            <div class="project-tags"><span class="tag">React</span><span
+                                    class="tag teal">TypeScript</span><span class="tag pink">CloudWatch</span><span
+                                    class="tag orange">D3.js</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-7">🗂️</div>
+                        <div class="project-body">
+                            <div class="project-type">Full Stack · CMS · Cloud</div>
+                            <div class="project-name">ContentPilot — Headless CMS Platform</div>
+                            <p class="project-desc">Built a headless CMS with content versioning, media CDN via
+                                CloudFront, GraphQL API, and a modern editorial dashboard. Deployed on AWS Lambda + S3.
+                            </p>
+                            <div class="project-tags"><span class="tag">GraphQL</span><span class="tag teal">AWS
+                                    Lambda</span><span class="tag pink">PostgreSQL</span><span
+                                    class="tag green">CloudFront</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-8">📦</div>
+                        <div class="project-body">
+                            <div class="project-type">Open Source · Developer Tooling</div>
+                            <div class="project-name">PyFlow — Python Workflow Automation CLI</div>
+                            <p class="project-desc">Open-source CLI tool for defining and running Python-based data
+                                pipelines with a DAG engine, retries, logging, and GCP/AWS deployment targets. 500+
+                                GitHub stars.</p>
+                            <div class="project-tags"><span class="tag">Python</span><span
+                                    class="tag teal">CLI</span><span class="tag pink">GCP</span><span
+                                    class="tag orange">Open Source</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ── AI & AGENTIC TAB ── -->
+            <div class="tab-panel" id="panel-ai">
+                <div class="projects-grid-3">
+
+                    <div class="project-card">
+                        <div class="project-header ph-3">🤖</div>
+                        <div class="project-body">
+                            <div class="project-type">Multi-Agent · LangGraph · Python</div>
+                            <div class="project-name">ResearchMind — MultiAgent Orchestrator</div>
+                            <p class="project-desc">A LangGraph-powered multi-agent system with a Planner, Researcher,
+                                Critic, and Writer agent. Autonomously researches topics, validates facts, and generates
+                                structured reports using GPT-4o + Tavily web search. Includes a persistent memory store
+                                and human-in-the-loop checkpoints.</p>
+                            <div class="project-tags"><span class="tag">LangGraph</span><span
+                                    class="tag teal">GPT-4o</span><span class="tag pink">Multi-Agent</span><span
+                                    class="tag green">FastAPI</span><span class="tag orange">Redis Memory</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-6">💡</div>
+                        <div class="project-body">
+                            <div class="project-type">RAG · LangChain · LLMs</div>
+                            <div class="project-name">KnowledgeCore — Enterprise RAG Assistant</div>
+                            <p class="project-desc">Production-grade RAG pipeline built with LangChain, Pinecone, and
+                                OpenAI. Ingests PDFs, Confluence pages, and Notion docs. Returns grounded answers with
+                                source citations and confidence scores. Served 10K+ queries/day with 92% accuracy.</p>
+                            <div class="project-tags"><span class="tag">LangChain</span><span
+                                    class="tag teal">Pinecone</span><span class="tag pink">OpenAI</span><span
+                                    class="tag green">RAG</span><span class="tag orange">FastAPI</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header ph-1">🔍</div>
+                        <div class="project-body">
+                            <div class="project-type">Agentic · Code Analysis · Python</div>
+                            <div class="project-name">CodeSentinel — AI Code Review Agent</div>
+                            <p class="project-desc">An autonomous code review agent that uses GPT-4o + static analysis
+                                tools via tool-calling to detect bugs, security issues, and style violations across PRs.
+                                Integrates with GitHub Actions as a CI step and posts inline PR comments with
+                                explanations and fixes.</p>
+                            <div class="project-tags"><span class="tag">LangChain</span><span class="tag teal">Tool
+                                    Calling</span><span class="tag pink">GitHub Actions</span><span
+                                    class="tag green">GPT-4o</span><span class="tag orange">Python</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================
+         TECH STACK
+    ======================== -->
+        <section id="techstack">
+            <div class="reveal">
+                <p class="section-label">Tools of the Trade</p>
+                <h2 class="section-title">Tech Stack</h2>
+                <p class="section-desc">Technologies and frameworks I work with daily to build intelligent, scalable AI
+                    products.</p>
+            </div>
+
+            <div class="tech-grid reveal">
+                <div class="tech-item"><span class="tech-icon">🐍</span>
+                    <div class="tech-name">Python</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">⚛️</span>
+                    <div class="tech-name">React</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🔷</span>
+                    <div class="tech-name">TypeScript</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🦜</span>
+                    <div class="tech-name">LangChain</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🕸️</span>
+                    <div class="tech-name">LangGraph</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🤗</span>
+                    <div class="tech-name">Hugging Face</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🧠</span>
+                    <div class="tech-name">OpenAI API</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">💡</span>
+                    <div class="tech-name">Gemini API</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🌲</span>
+                    <div class="tech-name">Pinecone</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🗄️</span>
+                    <div class="tech-name">PostgreSQL</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">⚡</span>
+                    <div class="tech-name">FastAPI</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🐋</span>
+                    <div class="tech-name">Docker</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">☸️</span>
+                    <div class="tech-name">Kubernetes</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">☁️</span>
+                    <div class="tech-name">AWS</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🌐</span>
+                    <div class="tech-name">GCP</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🌿</span>
+                    <div class="tech-name">Terraform</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">📊</span>
+                    <div class="tech-name">MLflow</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🎨</span>
+                    <div class="tech-name">Figma</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🔄</span>
+                    <div class="tech-name">GitHub Actions</div>
+                </div>
+                <div class="tech-item"><span class="tech-icon">🔬</span>
+                    <div class="tech-name">Jupyter</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================
+         ABOUT + CERTS
+    ======================== -->
+        <section id="about">
+            <div class="reveal">
+                <p class="section-label">About Me</p>
+                <h2 class="section-title">The Person Behind the Code</h2>
+            </div>
+            <div class="about-grid reveal">
+                <div class="about-text">
+                    <p>
+                        I'm <strong>Visanth Kallazhi</strong>, an AI Product Engineer with 5 years of experience
+                        building at the frontier of artificial intelligence and software engineering. I believe the best
+                        AI products are born from a rare combination of deep technical depth, product empathy, and
+                        design sensibility — and that's exactly what I bring to every project.
+                    </p>
+                    <p>
+                        My journey started in full-stack development, where I built strong foundations in both
+                        engineering and user experience. As AI capabilities exploded, I positioned myself at the
+                        intersection — learning LLMs, agentic architectures, and MLOps while never losing sight of what
+                        makes products truly great: they solve real problems for real people.
+                    </p>
+                    <p>
+                        I'm deeply excited about the agentic era of AI — where software doesn't just respond, it
+                        reasons, plans, and acts. I spend my evenings exploring new agent frameworks, vibe coding new
+                        ideas, and contributing to open-source AI tools.
+                    </p>
+                    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+                        <span class="tag teal">📍 [ Your Location ]</span>
+                        <span class="tag green">🎓 [ Your Degree / University ]</span>
+                        <span class="tag pink">🌐 Open to Remote</span>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="section-label" style="margin-bottom:20px;">Certifications &amp; Recognition</p>
+                    <div class="cert-list">
+                        <div class="cert-item">
+                            <span class="cert-icon">🏆</span>
+                            <div class="cert-info">
+                                <div class="cert-name">AWS Certified Machine Learning – Specialty</div>
+                                <div class="cert-issuer">Amazon Web Services · [ Year ]</div>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <span class="cert-icon">🎓</span>
+                            <div class="cert-info">
+                                <div class="cert-name">Google Professional ML Engineer Certification</div>
+                                <div class="cert-issuer">Google Cloud · [ Year ]</div>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <span class="cert-icon">🤖</span>
+                            <div class="cert-info">
+                                <div class="cert-name">LangChain / LangGraph Specialization</div>
+                                <div class="cert-issuer">DeepLearning.AI · [ Year ]</div>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <span class="cert-icon">⚙️</span>
+                            <div class="cert-info">
+                                <div class="cert-name">Certified Kubernetes Administrator (CKA)</div>
+                                <div class="cert-issuer">CNCF · [ Year ]</div>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <span class="cert-icon">💡</span>
+                            <div class="cert-info">
+                                <div class="cert-name">[ Additional Certification ]</div>
+                                <div class="cert-issuer">Issuer · [ Year ]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================
+         CONTACT
+    ======================== -->
+        <section id="contact">
+            <div class="contact-card reveal">
+                <p class="section-label" style="text-align:center;">Get In Touch</p>
+                <h2 class="section-title">Let's Build Something<br /><span
+                        style="background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Intelligent
+                        Together</span></h2>
+                <p>Whether you're building an AI product, scaling an agentic system, or just want to talk about LLMs and
+                    the future of software — I'd love to connect.</p>
+                <div class="contact-links">
+                    <a href="mailto:jvk.visanth2116@gmail.com" class="contact-btn primary" id="contact-email-btn">
+                        ✉️ Email Me
+                    </a>
+                    <a href="https://www.linkedin.com/in/visanth-kallazhi/" target="_blank" rel="noopener"
+                        class="contact-btn" id="contact-linkedin-btn">
+                        💼 LinkedIn
+                    </a>
+                    <a href="https://github.com/Visanth-fullStack" target="_blank" rel="noopener" class="contact-btn"
+                        id="contact-github-btn">
+                        🐙 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Designed &amp; Built by <span>Visanth Kallazhi</span> · 2025 · AI Product Engineer</p>
+    </footer>
+
+    <script>
+        // ============================
+        // SCROLL REVEAL
+        // ============================
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ============================
+        // NAVBAR SHRINK ON SCROLL
+        // ============================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.style.padding = '10px 0';
+                navbar.style.background = 'rgba(6, 8, 18, 0.92)';
+            } else {
+                navbar.style.padding = '16px 0';
+                navbar.style.background = 'rgba(6, 8, 18, 0.7)';
+            }
+        });
+
+        // ============================
+        // STAGGERED CARD ANIMATIONS
+        // ============================
+        function staggerChildren(containerSelector, itemSelector, baseDelay = 0) {
+            const container = document.querySelector(containerSelector);
+            if (!container) return;
+            const items = container.querySelectorAll(itemSelector);
+            const obs = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    items.forEach((item, i) => {
+                        setTimeout(() => item.classList.add('visible'), baseDelay + i * 80);
+                    });
+                    obs.disconnect();
+                }
+            }, { threshold: 0.1 });
+            items.forEach(item => { item.classList.add('reveal'); });
+            obs.observe(container);
+        }
+
+        staggerChildren('.skills-grid', '.skill-card');
+        staggerChildren('.tech-grid', '.tech-item');
+        staggerChildren('.cert-list', '.cert-item');
+
+        // ============================
+        // PROJECT TAB SWITCHING
+        // ============================
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ============================
+        // SMOOTH ACTIVE NAV
+        // ============================
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(sec => {
+                if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+            });
+            navLinks.forEach(link => {
+                link.style.color = link.getAttribute('href') === `#${current}`
+                    ? 'var(--accent-2)' : '';
+            });
+        });
+    </script>
 </body>
+
 </html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ShopMind — AI Shopping Assistant · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--orange:#ea580c;--orange-2:#f97316;--orange-dim:rgba(234,88,12,.08);--dark:#0a0908;--s1:#141210;--s2:#1c1a17;--s3:#25221f;--text:#f8fafc;--t2:#cbd5e1;--t3:#64748b;--t4:#475569;--white:#ffffff;--grad:linear-gradient(135deg,#ea580c,#f97316,#fbbf24);--font:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;--r:12px;--tr:all .25s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font);background:var(--dark);color:var(--text);display:flex;flex-direction:column}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s2);border-radius:3px}
+
+/* TOPBAR */
+.topbar{height:64px;background:rgba(10,9,8,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(234,88,12,.15);display:flex;align-items:center;padding:0 24px;gap:20px;flex-shrink:0;z-index:100}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--t3);text-decoration:none;transition:var(--tr)}
+.back-btn:hover{color:var(--orange)}
+.logo{font-size:1.1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.cart-btn{position:relative;background:var(--s1);border:1px solid rgba(234,88,12,.2);padding:8px 14px;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+.cart-badge{position:absolute;top:-5px;right:-5px;background:var(--orange);color:#fff;width:18px;height:18px;border-radius:50%;font-size:.65rem;display:flex;align-items:center;justify-content:center;font-weight:800}
+
+/* MAIN */
+.app{flex:1;display:flex;overflow:hidden}
+
+/* SIDEBAR — PRODUCT GRID */
+.catalog{flex:1;overflow-y:auto;padding:24px;background:var(--dark);display:flex;flex-direction:column}
+.cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cat-title{font-size:1.2rem;font-weight:800}
+.cat-filter-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.filter-chip{padding:6px 14px;border-radius:50px;background:var(--s1);border:1px solid rgba(255,255,255,.06);font-size:.75rem;font-weight:600;color:var(--t3);cursor:pointer;transition:var(--tr)}
+.filter-chip:hover{border-color:rgba(234,88,12,.3);color:var(--t2)}
+.filter-chip.active{background:var(--orange-dim);border-color:var(--orange);color:var(--orange)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.product-card{background:var(--s1);border:1px solid rgba(255,255,255,.05);border-radius:16px;overflow:hidden;transition:var(--tr);cursor:pointer;position:relative}
+.product-card:hover{transform:translateY(-4px);border-color:rgba(234,88,12,.3);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.p-image{height:160px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative}
+.p-image::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.5))}
+.p-reco-tag{position:absolute;top:10px;left:10px;background:var(--grad);color:#fff;padding:4px 8px;border-radius:6px;font-size:.62rem;font-weight:800;z-index:5;text-transform:uppercase;box-shadow:0 4px 12px rgba(234,88,12,.3)}
+.p-body{padding:16px}
+.p-info{margin-bottom:12px}
+.p-name{font-size:.88rem;font-weight:700;margin-bottom:4px}
+.p-price{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--orange)}
+.p-price .old{font-size:.7rem;text-decoration:line-through;color:var(--t4);margin-left:6px}
+.p-cat{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:2px}
+.add-btn{width:100%;padding:10px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--t2);font-size:.75rem;font-weight:700;cursor:pointer;transition:var(--tr);font-family:var(--font)}
+.add-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange);box-shadow:0 4px 15px rgba(234,88,12,.3)}
+
+/* AI PANEL */
+.ai-panel{width:360px;background:var(--s1);border-left:1px solid rgba(234,88,12,.15);display:flex;flex-direction:column;flex-shrink:0;position:relative}
+.ai-header{padding:16px 20px;border-bottom:1px solid rgba(234,88,12,.1);background:var(--s2)}
+.ai-title{font-size:.9rem;font-weight:800;display:flex;align-items:center;gap:8px}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.2)}}
+.ai-sub{font-size:.65rem;color:var(--t3);margin-top:2px}
+
+.ai-chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:85%;padding:12px;border-radius:14px;font-size:.82rem;line-height:1.6;position:relative}
+.msg.ai{background:var(--s2);border:1px solid rgba(234,88,12,.15);color:var(--text);align-self:flex-start;border-radius:4px 14px 14px 14px}
+.msg.user{background:var(--grad);color:#fff;align-self:flex-end;border-radius:14px 4px 14px 14px;box-shadow:0 4px 12px rgba(234,88,12,.2)}
+.msg strong{color:var(--orange-2)}
+.msg.user strong{color:#fff}
+
+.ai-typing{display:flex;gap:3px;align-items:center;padding:12px;background:var(--s2);border-radius:14px;width:fit-content;margin-left:0}
+.ai-typing span{width:5px;height:5px;background:var(--orange);border-radius:50%;animation:typing 1.2s infinite}
+.ai-typing span:nth-child(2){animation-delay:.2s}
+.ai-typing span:nth-child(3){animation-delay:.4s}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+.chip-row{display:flex;flex-direction:column;gap:6px;padding:0 20px 10px}
+.chip{padding:8px 12px;border-radius:10px;background:rgba(234,88,12,.06);border:1px solid rgba(234,88,12,.12);font-size:.72rem;font-weight:600;color:var(--t2);cursor:pointer;transition:var(--tr);text-align:left}
+.chip:hover{background:var(--orange-dim);border-color:var(--orange);transform:translateX(4px)}
+
+.ai-input-wrap{padding:20px;background:var(--s2);border-top:1px solid rgba(234,88,12,.1);display:flex;gap:8px;align-items:center}
+.input-box{flex:1;background:var(--dark);border:1px solid rgba(234,88,12,.15);border-radius:12px;padding:10px 14px;font-size:.85rem;color:var(--text);transition:var(--tr);outline:none;font-family:var(--font)}
+.input-box:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(234,88,12,.08)}
+.send-btn{width:40px;height:40px;border-radius:12px;background:var(--grad);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:var(--tr)}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(234,88,12,.4)}
+
+/* OVERLAY FOR RECOMMENDATION */
+.reco-overlay{position:absolute;background:rgba(10,9,8,.8);backdrop-filter:blur(4px);padding:4px 8px;border-radius:6px;top:-20px;right:0;font-size:.6rem;font-weight:800;color:var(--orange);text-transform:uppercase}
+
+.highlighted{border-color:var(--orange)!important;box-shadow:0 0 20px rgba(234,88,12,.2)!important;scale:1.02}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:24px;background:var(--s2);border:1px solid var(--orange);color:var(--text);padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.5);transform:translateY(100px);transition:transform .3s cubic-bezier(0.19, 1, 0.22, 1);z-index:200;display:flex;align-items:center;gap:12px}
+.toast-success-icon{color:var(--orange);font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:16px">
+    <a href="shopmind.html" class="back-btn">← Case Study</a>
+    <div class="logo">ShopMind</div>
+  </div>
+  <div class="tb-right">
+    <div style="font-size:.7rem;font-family:var(--mono);color:var(--t3)">CURRENCY: USD</div>
+    <button class="cart-btn">🛒 Cart <span class="cart-badge" id="cart-count">0</span></button>
+  </div>
+</div>
+
+<div class="app">
+  <div class="catalog">
+    <div class="cat-header">
+      <div class="cat-title">Live Collections</div>
+      <div style="font-size:.7rem;color:var(--t3)">Showing <span id="item-count">8</span> premium products</div>
+    </div>
+    <div class="cat-filter-row" id="filters">
+      <div class="filter-chip active" onclick="filter('all', this)">All</div>
+      <div class="filter-chip" onclick="filter('tech', this)">Tech</div>
+      <div class="filter-chip" onclick="filter('outdoor', this)">Outdoor</div>
+      <div class="filter-chip" onclick="filter('home', this)">Home</div>
+      <div class="filter-chip" onclick="filter('audio', this)">Audio</div>
+    </div>
+    <div class="grid" id="product-grid">
+      <!-- Products will be rendered here -->
+    </div>
+  </div>
+
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div class="ai-title"><div class="ai-dot"></div> AI Assistant</div>
+      <div class="ai-sub">Your personal shopper for gifts & discovery</div>
+    </div>
+    <div class="ai-chat" id="chat">
+      <div class="msg ai">Hey! Looking for something special? Tell me who you're shopping for or what vibe you're after. ✨</div>
+    </div>
+    <div class="chip-row" id="chips">
+      <div class="chip" onclick="send('I need a gift for my tech-loving brother')">🎁 Gift for my tech-loving brother</div>
+      <div class="chip" onclick="send('Show me premium hiking gear')">⛰️ Premium hiking gear</div>
+      <div class="chip" onclick="send('What is popular for home office setups?')">💼 Best for home office</div>
+    </div>
+    <div class="ai-input-wrap">
+      <input type="text" class="input-box" id="input" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')send()"/>
+      <button class="send-btn" onclick="send()">↑</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span class="toast-success-icon">✦</span> <span id="toast-text">Item added to cart</span></div>
+
+<script>
+const products = [
+  {id:1,name:'AeroPod Pro Max',cat:'audio',price:189,emoji:'🎧',reco:null},
+  {id:2,name:'UltraLight Carbon Trek',cat:'outdoor',price:145,emoji:'🎒',reco:null},
+  {id:3,name:'Duo-Curve Monitor',cat:'tech',price:320,emoji:'🖥️',reco:null},
+  {id:4,name:'Minimal Marble Lamp',cat:'home',price:65,emoji:'💡',reco:null},
+  {id:5,name:'Mechanized H1 Keyboard',cat:'tech',price:125,emoji:'⌨️',reco:null},
+  {id:6,name:'Summit Peak Tent',cat:'outdoor',price:299,emoji:'⛺',old:350,reco:null},
+  {id:7,name:'Arcade Retro Console',cat:'tech',price:75,emoji:'🕹️',reco:null},
+  {id:8,name:'Symphony Wood Speaker',cat:'audio',price:110,emoji:'🔊',reco:null},
+  {id:9,name:'Apex Smart Watch',cat:'tech',price:240,emoji:'⌚',reco:null},
+  {id:10,name:'Alpine Hydration Flask',cat:'outdoor',price:38,emoji:'🧉',reco:null},
+  {id:11,name:'Ceramic Pour-Over Kit',cat:'home',price:42,emoji:'☕',reco:null},
+  {id:12,name:'Lume-Soft Ambient Orb',cat:'home',price:88,emoji:'🔮',reco:null},
+];
+
+let cartCount = 0;
+let isTyping = false;
+
+function render(items){
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = '';
+  document.getElementById('item-count').textContent = items.length;
+  
+  items.forEach(p => {
+    const card = document.createElement('div');
+    card.className = `product-card ${p.reco ? 'highlighted' : ''}`;
+    card.id = `prod-${p.id}`;
+    card.innerHTML = `
+      ${p.reco ? `<div class="p-reco-tag">${p.reco}</div>` : ''}
+      <div class="p-image">${p.emoji}</div>
+      <div class="p-body">
+        <div class="p-cat">${p.cat}</div>
+        <div class="p-name">${p.name}</div>
+        <div class="p-price">$${p.price}${p.old ? `<span class="old">$${p.old}</span>` : ''}</div>
+        <button class="add-btn" onclick="addToCart(event, '${p.name}')">Add to Cart</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function filter(cat, el){
+  if(el){
+    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  const items = cat === 'all' ? products : products.filter(p=>p.cat === cat);
+  render(items);
+}
+
+function addToCart(e, name){
+  e.stopPropagation();
+  cartCount++;
+  document.getElementById('cart-count').textContent = cartCount;
+  showToast(`Added ${name} to your cart`);
+}
+
+function showToast(text){
+  const t = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = text;
+  t.style.transform = 'translateY(0)';
+  setTimeout(() => { t.style.transform = 'translateY(100px)'; }, 3000);
+}
+
+const aiResponses = {
+  'gift': {
+    text: "For a **tech-loving brother**, I've curated our top picks! The **Mechanized H1 Keyboard** is a cult classic for setups, and the **AeroPod Pro Max** is perfect for focus. I've highlighted them for you below.",
+    filters: ['tech', 'audio'],
+    recos: {5: 'Top Tech Gift', 1: 'Best Sound'}
+  },
+  'outdoor': {
+    text: "Heading out? The **Summit Peak Tent** is currently on sale. If he loves hiking, the **UltraLight Carbon Trek** bag is a game changer for long trails. Take a look at these!",
+    filters: ['outdoor'],
+    recos: {6: 'Price Drop', 2: 'Explorer Choice'}
+  },
+  'home': {
+    text: "For a productive home office, the **Duo-Curve Monitor** increases efficiency, paired with the **Minimal Marble Lamp** for soft evening work light. Check these out!",
+    filters: ['home', 'tech'],
+    recos: {3: 'Pro Choice', 4: 'Design Pick'}
+  }
+};
+
+async function send(preset){
+  if(isTyping) return;
+  const input = document.getElementById('input');
+  const chat = document.getElementById('chat');
+  const msgText = preset || input.value.trim();
+  if(!msgText) return;
+
+  input.value = '';
+  document.getElementById('chips').style.display = 'none';
+
+  // Add user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.textContent = msgText;
+  chat.appendChild(userMsg);
+  chat.scrollTop = chat.scrollHeight;
+
+  // Typing indicator
+  isTyping = true;
+  const typing = document.createElement('div');
+  typing.className = 'ai-typing';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+
+  await new Promise(r => setTimeout(r, 1200));
+  chat.removeChild(typing);
+
+  // Logic
+  const lower = msgText.toLowerCase();
+  let key = 'default';
+  if(lower.includes('gift') || lower.includes('brother')) key = 'gift';
+  else if(lower.includes('outdoor') || lower.includes('hiking')) key = 'outdoor';
+  else if(lower.includes('home') || lower.includes('office')) key = 'home';
+
+  const res = aiResponses[key] || {text: "I can help you narrow that down! Are you looking for **Tech**, **Outdoor gear**, or **Home decor** right now?", filters:['all'], recos:{}};
+
+  // Render AI message
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'msg ai';
+  aiMsg.innerHTML = res.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  chat.appendChild(aiMsg);
+  chat.scrollTop = chat.scrollHeight;
+  isTyping = false;
+
+  // Update Grid
+  products.forEach(p => p.reco = res.recos[p.id] || null);
+  const filteredItems = res.filters.includes('all') ? products : products.filter(p => res.filters.includes(p.cat));
+  render(filteredItems);
+
+  // Highlight active filter chip
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', res.filters.includes(c.textContent.toLowerCase()));
+  });
+}
+
+// Init
+render(products);
+</script>
+</body>
+</html>
